@@ -4,6 +4,7 @@ class Particle {
         this.velocity = velocity;
         this.acceleration = createVector(0, 0);
         this.locked = false;
+        this.resistance = 10;
     }
 
     lock() {
@@ -26,6 +27,7 @@ class Particle {
         }
         this.velocity.mult(0.9);
         this.acceleration.mult(0.9);
+        // this.wallBounce();
     }
     // update(deltaTime, numSubsteps) {
     //     if (!this.locked) {
@@ -42,22 +44,30 @@ class Particle {
     //     }
     // }
 
+    wallBounce() {
+        ellipse(this.position.x,this.position.y,sin(this.velocity.y)*10,sin(this.velocity.x)*10);
+    }
+
     checkEdges() {
         if (this.position.y > height) {
             this.position.y = height;
             this.velocity.y *= -0.8; // bounce with some energy loss
+            this.wallBounce();
         }
         if (this.position.y < 0) {
             this.position.y = 0;
             this.velocity.y *= -0.8; // bounce with some energy loss
+            this.wallBounce();
         }
         if (this.position.x > width) {
             this.position.x = width;
             this.velocity.x *= -0.8;
+            this.wallBounce();
         }
         if (this.position.x < 0) {
             this.position.x = 0;
             this.velocity.x *= -0.8;
+            this.wallBounce();
         }
     }
 
